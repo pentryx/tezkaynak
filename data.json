@@ -1,72 +1,92 @@
 [
   {
-    "alıntı": "Herkesin doğumundan itibaren inşa etmeye çalıştığı bir bina vardır. Yığarlar tuğlaları üst üste, yalan yanlış, eğri, fark etmeksizin.",
-    "sayfa": 31,
-    "kitap": "Kambur",
-    "yazar": "sdfds sdf",
-    "bağlam": "Bireyin geçmişi ve inşa ettiği kimlik"
+    "yazar": "Paul Ricoeur",
+    "kitap": "Memory, History, Forgetting",
+    "yıl": 2004,
+    "sayfa_no": 81,
+    "alıntı": "The heart of the problem is the mobilization of memory in the service of the quest, the appeal, the demand for identity.",
+    "çeviri": "Sorunun özü, belleğin kimlik arayışı, çağrısı ve talebi hizmetine sunulmasıdır.",
+    "bağlam": "Bellek ve kimlik oluşturmadaki rolü"
   },
   {
-    "alıntı": "Kendini unutmanın, tekrar ettirmemenin, ekranda izler gibi rahat olmanın tek yolu buydu.",
-    "sayfa": 31,
-    "kitap": "Kambur",
-    "yazar": "Şule Gürbüz",
-    "bağlam": "Kimlikten kaçış ve varoluş sancısı"
+    "yazar": "Paul Ricoeur",
+    "kitap": "Memory, History, Forgetting",
+    "yıl": 2004,
+    "sayfa_no": 105,
+    "alıntı": "Personal identity is a temporal identity.",
+    "çeviri": "Kişisel kimlik, zamansal bir kimliktir.",
+    "bağlam": "Bellek ve kimlik oluşturmadaki rolü"
   },
   {
-    "alıntı": "Bende kaybolma isteği vardır. Küçükken başımı alır alır giderdim. Yine de fazla uzaklaşmazdım tabii.",
-    "sayfa": 12,
-    "kitap": "Kambur",
-    "yazar": "Şule Gürbüz",
-    "bağlam": "Geçmiş ve kimlik arayışı"
+    "yazar": "Paul Ricoeur",
+    "kitap": "Memory, History, Forgetting",
+    "yıl": 2004,
+    "sayfa_no": 106,
+    "alıntı": "Identity and consciousness form a circle.",
+    "çeviri": "Kimlik ve bilinç bir döngü oluşturur.",
+    "bağlam": "Bellek ve kimlik oluşturmadaki rolü"
   },
   {
-    "alıntı": "Anı diyorum ya; benim hiç anım yok. Gerçekten yok. Olmalı mı? Şart mı? Bir şey uyduramaz mıyız?",
-    "sayfa": 11,
-    "kitap": "DELİ OĞLAN",
-    "yazar": "Şule Gürbüz",
-    "bağlam": "Hafıza ve kimliğin inşasındaki çarpıklık"
+    "yazar": "Paul Ricoeur",
+    "kitap": "Memory, History, Forgetting",
+    "yıl": 2004,
+    "sayfa_no": 104,
+    "alıntı": "Memory and identity, collective as well as personal, intersect at their core.",
+    "çeviri": "Bellek ve kimlik, hem kolektif hem de bireysel düzeyde, özlerinde kesişirler.",
+    "bağlam": "Bellek ve kimlik oluşturmadaki rolü"
   },
   {
-    "alıntı": "Kaybolma isteğim kaybolduktan sonra, itiraf etmem gerekirse, kendimi daha eksik hissettim.",
-    "sayfa": 12,
-    "kitap": "Kambur",
-    "yazar": "Şule Gürbüz",
-    "bağlam": "tuncay"
+    "yazar": "Paul Ricoeur",
+    "kitap": "Memory, History, Forgetting",
+    "yıl": 2004,
+    "sayfa_no": 127,
+    "alıntı": "Self-ascription and other-ascription are coextensive; we cannot do one without doing the other.",
+    "çeviri": "Öz-yükleme ve başkalarına yükleme eşzamanlıdır; birini yapmadan diğerini yapamayız.",
+    "bağlam": "Bellek ve kimlik oluşturmadaki rolü"
   },
   {
-    "alıntı": "Geçmişte böyle bir şey yapmamış da, yapmış gibi görünmek için anlattınızsa — hayal hırsızlığı; değilse, anı hırsızlığı...",
-    "sayfa": 11,
-    "kitap": "Kambur",
-    "yazar": "Şule Gürbüz",
-    "bağlam": "Hafıza ve kimliğin inşasındaki çarpıklık"
+    "yazar": "Paul Ricoeur",
+    "kitap": "Memory, History, Forgetting",
+    "yıl": 2004,
+    "sayfa_no": 79,
+    "alıntı": "Symbolic wounds calling for healing are stored in the archives of the collective memory.",
+    "çeviri": "Şifa talep eden sembolik yaralar, kolektif belleğin arşivlerinde saklanır.",
+    "bağlam": "Bellek ve kimlik oluşturmadaki rolü"
   },
   {
-    "alıntı": "Yaşama hoyratça davranmaya alışkınım; çünkü bozuk para gibidir. Edepsizce değil ama, yine de harcamak gerekir.",
-    "sayfa": 75,
-    "kitap": "asdf",
-    "yazar": "Şule Gürbüz",
-    "bağlam": "harun"
+    "yazar": "Paul Ricoeur",
+    "kitap": "Memory, History, Forgetting",
+    "yıl": 2004,
+    "sayfa_no": 85,
+    "alıntı": "It is through the narrative function that memory is incorporated into the formation of identity.",
+    "çeviri": "Bellek, anlatı işlevi aracılığıyla kimlik oluşumuna dâhil edilir.",
+    "bağlam": "Bellek ve kimlik oluşturmadaki rolü"
   },
   {
-    "alıntı": "Bütün kadınlar benden genç; daha doğrusu, öyle diyorlar. 'Genciz!' Bir şey demiyorum — ne diyeyim?",
-    "sayfa": 25,
-    "kitap": "Kambur",
-    "yazar": "Şule Gürbüz",
-    "bağlam": "Hafıza ve kimliğin inşasındaki çarpıklık"
+    "yazar": "Paul Ricoeur",
+    "kitap": "Memory, History, Forgetting",
+    "yıl": 2004,
+    "sayfa_no": 388,
+    "alıntı": "History has ceased to be part of memory, and memory has become part of history.",
+    "çeviri": "Tarih artık belleğin bir parçası olmaktan çıkmış, bellek tarihin bir parçası haline gelmiştir.",
+    "bağlam": "Bellek ve kimlik oluşturmadaki rolü"
   },
   {
-    "alıntı": "Gözlerimi açtığımda düşlerimin büyük kısmını; bazen hiçbirini, hatırlamıyorum. Eksikliğini ve acısını çektiğim tek şeyse, bu.",
-    "sayfa": 69,
-    "kitap": "Kambur",
-    "yazar": "Şule Gürbüz",
-    "bağlam": "harun"
+    "yazar": "Paul Ricoeur",
+    "kitap": "Memory, History, Forgetting",
+    "yıl": 2004,
+    "sayfa_no": 103,
+    "alıntı": "The cogito is not a person defined by his or her memory and the capacity to give an accounting to himself or herself.",
+    "çeviri": "Cogito, kendini belleği ve kendine hesap verebilme kapasitesiyle tanımlayan bir kişi değildir.",
+    "bağlam": "Bellek ve kimlik oluşturmadaki rolü"
   },
   {
-    "alıntı": "Sanırım dünyada öğütlenebilecek tek şey ahmaklıktır. Çözümü olmadığı gibi, kalıcılığı da diğer parlak yanıdır.",
-    "sayfa": 27,
-    "kitap": "sadfasd",
-    "yazar": "Şule Gürbüz",
-    "bağlam": "Kimliğin değişmezliği ve bireyin çaresizliği"
+    "yazar": "Paul Ricoeur",
+    "kitap": "Memory, History, Forgetting",
+    "yıl": 2004,
+    "sayfa_no": 397,
+    "alıntı": "There are several collective memories. However, history is unitary, and it can be said that there is only one history.",
+    "çeviri": "Birden fazla kolektif bellek vardır. Ancak tarih tektir ve yalnızca bir tane tarih olduğu söylenebilir.",
+    "bağlam": "Bellek ve kimlik oluşturmadaki rolü"
   }
 ]
