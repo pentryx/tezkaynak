@@ -6,62 +6,130 @@
     <title>Kitap Alıntıları</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .context-btn {
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .header {
+            background-color: #f0f2f5;
+            padding: 25px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .filter-btn {
             margin: 5px;
             transition: all 0.3s;
+            font-size: 0.9rem;
         }
-        .context-btn.active {
+        .filter-btn.active {
             background-color: #0d6efd;
             color: white;
         }
         .quote-card {
             margin-bottom: 20px;
             transition: all 0.3s;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         .quote-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         .quote-text {
             font-style: italic;
             font-size: 1.1rem;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .quote-translation {
+            font-size: 1rem;
+            color: #555;
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
         }
         .book-info {
-            font-size: 0.9rem;
-            color: #666;
+            font-size: 0.85rem;
+            color: #6c757d;
         }
-        #contextContainer {
-            padding: 10px 0;
+        .filter-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #495057;
         }
-        .header {
-            background-color: #f8f9fa;
-            padding: 20px 0;
+        .filter-container {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             margin-bottom: 20px;
-            border-bottom: 1px solid #e9ecef;
+        }
+        .selections-container {
+            background-color: #e9ecef;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .selection-badge {
+            margin-right: 10px;
+            background-color: #0d6efd;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .clear-all {
+            color: #dc3545;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        #noSelectionMessage {
+            font-size: 1.1rem;
+            color: #6c757d;
+            text-align: center;
+            padding: 50px 0;
         }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="container">
-            <h1 class="text-center">Kitap Alıntıları</h1>
+            <h1 class="text-center mb-0">Kitap Alıntıları</h1>
         </div>
     </div>
 
     <div class="container">
-        <div class="row mb-4">
-            <div class="col-12">
-                <h2>Bağlam Seçin</h2>
-                <div id="contextContainer" class="d-flex flex-wrap"></div>
-            </div>
-        </div>
-
         <div class="row">
-            <div class="col-12">
-                <h3 id="selectedContextTitle" class="mb-4 d-none"></h3>
+            <!-- Sol Sütun - Filtreler -->
+            <div class="col-md-4">
+                <!-- Bağlam Filtresi -->
+                <div class="filter-container">
+                    <h2 class="filter-title">Bağlam Seçimi</h2>
+                    <div id="contextContainer" class="d-flex flex-wrap"></div>
+                </div>
+
+                <!-- Yazar Filtresi -->
+                <div class="filter-container">
+                    <h2 class="filter-title">Yazar Seçimi</h2>
+                    <div id="authorContainer" class="d-flex flex-wrap"></div>
+                </div>
+            </div>
+
+            <!-- Sağ Sütun - Alıntılar -->
+            <div class="col-md-8">
+                <!-- Seçilen Filtreler -->
+                <div id="selectionsContainer" class="selections-container d-none">
+                    <h3 class="h5 mb-2">Seçilen Filtreler</h3>
+                    <div id="selectedFilters"></div>
+                    <span id="clearAllFilters" class="clear-all">Tümünü Temizle</span>
+                </div>
+
+                <!-- Alıntılar -->
                 <div id="quoteContainer" class="row"></div>
-                <div id="noContextMessage" class="text-center text-muted py-5">
-                    Bir amme hizmeti daha
+                <div id="noSelectionMessage">
+                    Lütfen en az bir bağlam veya yazar seçin
                 </div>
             </div>
         </div>
@@ -69,11 +137,19 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Uygulama state'i
+            const appState = {
+                data: [],
+                selectedContext: null,
+                selectedAuthor: null
+            };
+
             // Veri yükleme işlemi
             fetch('data.json')
                 .then(response => response.json())
                 .then(data => {
-                    initializeApp(data);
+                    appState.data = data;
+                    initializeApp();
                 })
                 .catch(error => {
                     console.error('Veri yüklenirken hata oluştu:', error);
@@ -81,66 +157,194 @@
                         '<div class="alert alert-danger">Veriler yüklenirken bir hata oluştu.</div>';
                 });
 
-            function initializeApp(data) {
-                // Benzersiz bağlamları bul
-                const uniqueContexts = [...new Set(data.map(item => item.bağlam))];
+            // Tüm filtreleri temizle
+            document.getElementById('clearAllFilters').addEventListener('click', function() {
+                clearAllFilters();
+            });
+
+            function initializeApp() {
+                // Benzersiz bağlamları bul ve sırala
+                const uniqueContexts = [...new Set(appState.data.map(item => item.bağlam))].sort();
+                
+                // Benzersiz yazarları bul ve sırala
+                const uniqueAuthors = [...new Set(appState.data.map(item => item.yazar))].sort();
                 
                 // Bağlam düğmelerini oluştur
                 const contextContainer = document.getElementById('contextContainer');
                 uniqueContexts.forEach(context => {
+                    if (!context) return; // Boş bağlamları atla
+                    
                     const button = document.createElement('button');
-                    button.classList.add('btn', 'btn-outline-primary', 'context-btn');
+                    button.classList.add('btn', 'btn-outline-primary', 'filter-btn', 'mb-1', 'me-1');
                     button.textContent = context;
                     button.addEventListener('click', () => {
-                        // Önceki aktif düğmelerden aktif sınıfını kaldır
-                        document.querySelectorAll('.context-btn.active').forEach(btn => {
-                            btn.classList.remove('active');
-                        });
-                        
-                        // Bu düğmeyi aktif yap
-                        button.classList.add('active');
-                        
-                        // Seçilen bağlamı göster
-                        showQuotesByContext(data, context);
+                        toggleContextFilter(context, button);
                     });
                     contextContainer.appendChild(button);
                 });
+                
+                // Yazar düğmelerini oluştur
+                const authorContainer = document.getElementById('authorContainer');
+                uniqueAuthors.forEach(author => {
+                    if (!author) return; // Boş yazarları atla
+                    
+                    const button = document.createElement('button');
+                    button.classList.add('btn', 'btn-outline-secondary', 'filter-btn', 'mb-1', 'me-1');
+                    button.textContent = author;
+                    button.addEventListener('click', () => {
+                        toggleAuthorFilter(author, button);
+                    });
+                    authorContainer.appendChild(button);
+                });
             }
 
-            function showQuotesByContext(data, context) {
+            function toggleContextFilter(context, button) {
+                if (appState.selectedContext === context) {
+                    // Aynı bağlam tekrar tıklandı, filtreyi kaldır
+                    appState.selectedContext = null;
+                    button.classList.remove('active');
+                } else {
+                    // Önceki aktif bağlam düğmesini temizle
+                    document.querySelectorAll('#contextContainer .filter-btn.active').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Yeni bağlamı seç
+                    appState.selectedContext = context;
+                    button.classList.add('active');
+                }
+                
+                updateQuotes();
+                updateSelectedFilters();
+            }
+
+            function toggleAuthorFilter(author, button) {
+                if (appState.selectedAuthor === author) {
+                    // Aynı yazar tekrar tıklandı, filtreyi kaldır
+                    appState.selectedAuthor = null;
+                    button.classList.remove('active');
+                } else {
+                    // Önceki aktif yazar düğmesini temizle
+                    document.querySelectorAll('#authorContainer .filter-btn.active').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Yeni yazarı seç
+                    appState.selectedAuthor = author;
+                    button.classList.add('active');
+                }
+                
+                updateQuotes();
+                updateSelectedFilters();
+            }
+
+            function clearAllFilters() {
+                // Tüm aktif filtre düğmelerini temizle
+                document.querySelectorAll('.filter-btn.active').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // State'i temizle
+                appState.selectedContext = null;
+                appState.selectedAuthor = null;
+                
+                // UI'ı güncelle
+                updateQuotes();
+                updateSelectedFilters();
+            }
+
+            function updateSelectedFilters() {
+                const selectedFiltersDiv = document.getElementById('selectedFilters');
+                const selectionsContainer = document.getElementById('selectionsContainer');
+                
+                // Seçilen filtreleri temizle
+                selectedFiltersDiv.innerHTML = '';
+                
+                // Filtre yoksa container'ı gizle
+                if (!appState.selectedContext && !appState.selectedAuthor) {
+                    selectionsContainer.classList.add('d-none');
+                    return;
+                }
+                
+                // Container'ı göster
+                selectionsContainer.classList.remove('d-none');
+                
+                // Seçilen bağlamı ekle
+                if (appState.selectedContext) {
+                    const contextBadge = document.createElement('span');
+                    contextBadge.classList.add('selection-badge');
+                    contextBadge.innerHTML = `Bağlam: ${appState.selectedContext}`;
+                    selectedFiltersDiv.appendChild(contextBadge);
+                }
+                
+                // Seçilen yazarı ekle
+                if (appState.selectedAuthor) {
+                    const authorBadge = document.createElement('span');
+                    authorBadge.classList.add('selection-badge');
+                    authorBadge.innerHTML = `Yazar: ${appState.selectedAuthor}`;
+                    selectedFiltersDiv.appendChild(authorBadge);
+                }
+            }
+
+            function updateQuotes() {
                 const quoteContainer = document.getElementById('quoteContainer');
-                const selectedContextTitle = document.getElementById('selectedContextTitle');
-                const noContextMessage = document.getElementById('noContextMessage');
+                const noSelectionMessage = document.getElementById('noSelectionMessage');
                 
                 // Filtrele
-                const filteredQuotes = data.filter(item => item.bağlam === context);
+                let filteredQuotes = appState.data;
                 
-                // Başlığı güncelle
-                selectedContextTitle.textContent = `"${context}" bağlamındaki alıntılar`;
-                selectedContextTitle.classList.remove('d-none');
+                if (appState.selectedContext) {
+                    filteredQuotes = filteredQuotes.filter(item => item.bağlam === appState.selectedContext);
+                }
                 
-                // Mesajı gizle
-                noContextMessage.classList.add('d-none');
+                if (appState.selectedAuthor) {
+                    filteredQuotes = filteredQuotes.filter(item => item.yazar === appState.selectedAuthor);
+                }
+                
+                // Mesajı göster veya gizle
+                if (!appState.selectedContext && !appState.selectedAuthor) {
+                    noSelectionMessage.style.display = 'block';
+                    quoteContainer.innerHTML = '';
+                    return;
+                } else {
+                    noSelectionMessage.style.display = 'none';
+                }
                 
                 // Alıntıları temizle ve yenilerini ekle
                 quoteContainer.innerHTML = '';
                 
                 filteredQuotes.forEach(quote => {
                     const quoteCard = document.createElement('div');
-                    quoteCard.classList.add('col-md-6', 'col-lg-4');
+                    quoteCard.classList.add('col-12');
                     
-                    quoteCard.innerHTML = `
-                        <div class="card quote-card">
+                    let quoteHtml = `
+                        <div class="card quote-card mb-4">
                             <div class="card-body">
                                 <p class="quote-text">"${quote.alıntı}"</p>
+                    `;
+                    
+                    // Çeviri varsa ekle
+                    if (quote.çeviri) {
+                        quoteHtml += `<p class="quote-translation">${quote.çeviri}</p>`;
+                    }
+                    
+                    // Kitap bilgilerini ekle
+                    quoteHtml += `
                                 <div class="d-flex justify-content-between book-info">
-                                    <div><strong>${quote.kitap}</strong> - ${quote.yazar}</div>
-                                    <div>Sayfa: ${quote.sayfa}</div>
+                                    <div>
+                                        <strong>${quote.kitap}</strong> - ${quote.yazar}
+                                        ${quote.yıl ? ` (${quote.yıl})` : ''}
+                                    </div>
+                                    <div>Sayfa: ${quote.sayfa_no || quote.sayfa}</div>
+                                </div>
+                                <div class="mt-2">
+                                    <span class="badge bg-light text-dark">${quote.bağlam}</span>
                                 </div>
                             </div>
                         </div>
                     `;
                     
+                    quoteCard.innerHTML = quoteHtml;
                     quoteContainer.appendChild(quoteCard);
                 });
             }
